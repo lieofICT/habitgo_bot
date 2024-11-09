@@ -8,12 +8,15 @@
      - `userId` — уникальный идентификатор пользователя (Primary Key).
      - `telegram_id` — ID пользователя в Telegram (для идентификации).
      - `created_at` — дата и время регистрации пользователя.
+     - `reminder_time` - время, когда бот будет напоминать пользователю о необходимости выполнения привычек (тип данных TIME).
 
    ```sql
    CREATE TABLE users (
-       userId SERIAL PRIMARY KEY,
-       telegram_id BIGINT UNIQUE NOT NULL,
-       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      id SERIAL PRIMARY KEY,
+      telegram_id BIGINT UNIQUE NOT NULL,
+      username VARCHAR(50),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      reminder_time TIME
    );
    ```
 
