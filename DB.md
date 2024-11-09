@@ -5,16 +5,14 @@
 #### Таблица `users`
    - **Описание**: Хранит информацию о каждом зарегистрированном пользователе.
    - **Поля**:
-     - `id` — уникальный идентификатор пользователя (Primary Key).
+     - `userId` — уникальный идентификатор пользователя (Primary Key).
      - `telegram_id` — ID пользователя в Telegram (для идентификации).
-     - `username` — имя пользователя в Telegram (опционально).
      - `created_at` — дата и время регистрации пользователя.
 
    ```sql
    CREATE TABLE users (
-       id SERIAL PRIMARY KEY,
+       userId SERIAL PRIMARY KEY,
        telegram_id BIGINT UNIQUE NOT NULL,
-       username VARCHAR(50),
        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
    );
    ```
@@ -22,16 +20,16 @@
 #### Таблица `habits`
    - **Описание**: Хранит информацию о привычках, добавленных пользователями.
    - **Поля**:
-     - `id` — уникальный идентификатор привычки (Primary Key).
-     - `user_id` — ID пользователя, которому принадлежит привычка (Foreign Key, ссылается на `users.id`).
+     - `habitId` — уникальный идентификатор привычки (Primary Key).
+     - `userId` — ID пользователя, которому принадлежит привычка (Foreign Key, ссылается на `users.id`).
      - `habit_name` — название привычки (например, "заниматься спортом").
      - `created_at` — дата и время добавления привычки.
      - `last_completed` — дата последнего выполнения привычки.
    
    ```sql
    CREATE TABLE habits (
-       id SERIAL PRIMARY KEY,
-       user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+       habitId SERIAL PRIMARY KEY,
+       userId INTEGER REFERENCES users(id) ON DELETE CASCADE,
        habit_name VARCHAR(100) NOT NULL,
        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
        last_completed DATE
@@ -41,8 +39,8 @@
 #### Таблица `habit_tracking`
    - **Описание**: Отдельная таблица для записи выполнения привычек. Позволяет отслеживать выполнение привычек по дням.
    - **Поля**:
-     - `id` — уникальный идентификатор записи (Primary Key).
-     - `habit_id` — ID привычки (Foreign Key, ссылается на `habits.id`).
+     - `trackId` — уникальный идентификатор записи (Primary Key).
+     - `habitId` — ID привычки (Foreign Key, ссылается на `habits.id`).
      - `date` — дата выполнения привычки.
      - `status` — статус выполнения (например, `TRUE` для выполнено, `FALSE` для не выполнено).
 
